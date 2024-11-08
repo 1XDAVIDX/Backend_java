@@ -20,33 +20,29 @@ public class UsuarioController {
     private UsuarioServicio usuarioServicio;
 
     // Mostrar ID de usuarios
-    @GetMapping("/ID")
-    public List<String> mostrarId() {
-        return usuarioServicio.mostrarId();
-    }
 
-    // Registrar cliente (sin encriptación de contraseña)
+    // Registrar cliente
     @PostMapping("/insertar/usuario")
     public Usuario registrarCliente(@RequestBody Usuario usuario) {
         return usuarioServicio.registrarCliente(usuario);
     }
 
-    // Login sin encriptación
+    // Login
     @PostMapping("/login")
     public ResponseEntity<Map<String, Object>> login(@RequestParam String id_usuario, @RequestParam String contraseña) {
         try {
-            // Verifica las credenciales del usuario a través del servicio
+
             Usuario usuario = usuarioServicio.login(id_usuario, contraseña);
 
-            // Crear una respuesta con el mensaje y el rol
+
             Map<String, Object> response = new HashMap<>();
             response.put("message", "Inicio de sesión exitoso");
-            response.put("rol", usuario.getRol()); // Devuelve el rol del usuario (por ejemplo, "admin" o "cliente")
+            response.put("rol", usuario.getRol());
 
-            // Retorna el mapa con la respuesta
+
             return ResponseEntity.ok(response);
         } catch (Exception e) {
-            // En caso de error, retornar un error 401 (Unauthorized)
+
             Map<String, Object> errorResponse = new HashMap<>();
             errorResponse.put("message", "Usuario o contraseña incorrectos");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);

@@ -15,14 +15,9 @@ public class UsuarioServicio {
     private UsuarioRepositorio usuarioRepositorio;
 
 
-    // Mostrar ID de usuarios
-    public List<String> mostrarId() {
-        return usuarioRepositorio.findAll().stream()
-                .map(Usuario::getIdUsuario)
-                .toList();
-    }
 
-    // Registrar usuario sin encriptación
+
+    // Registrar usuario
     public Usuario registrarCliente(Usuario usuario) {
         return usuarioRepositorio.save(usuario);
     }
@@ -30,7 +25,7 @@ public class UsuarioServicio {
     // Login
     public Usuario login(String idUsuario, String contraseña) throws Exception {
         // Lógica para autenticar al usuario
-        Usuario usuario = usuarioRepositorio.findById(idUsuario).orElseThrow(() -> new Exception("Usuario no encontrado"));
+        Usuario usuario = usuarioRepositorio.findById(Integer.valueOf(idUsuario)).orElseThrow(() -> new Exception("Usuario no encontrado"));
 
         if (!usuario.getContraseña().equals(contraseña)) {
             throw new Exception("Contraseña incorrecta");
