@@ -6,6 +6,7 @@ import com.tienda_mascotas.demo.entidades.Usuario;
 import com.tienda_mascotas.demo.repositorios.CompraRepositorio;
 import com.tienda_mascotas.demo.repositorios.ProductoRepositorio;
 import com.tienda_mascotas.demo.repositorios.UsuarioRepositorio;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -60,15 +61,21 @@ public class CompraServicio {
                 .orElseThrow(() -> new Exception("Usuario no encontrado"));
 
 
-        if (!compra.getUsuario().getIdUsuario().equals(idUsuario)) {
-            throw new Exception("La compra no pertenece al usuario proporcionado");
-        }
+
 
 
         compraRepositorio.delete(compra);
 
 
         return compra;
+    }
+    public Compra findById(int idCompra) {
+        return compraRepositorio.findById(idCompra)
+                .orElseThrow(() -> new EntityNotFoundException("Compra no encontrada con ID: " + idCompra));
+    }
+
+    public Compra save(Compra compra) {
+        return compraRepositorio.save(compra);
     }
 
 }

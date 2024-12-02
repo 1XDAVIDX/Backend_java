@@ -10,7 +10,7 @@ public class Usuario {
     @Column(name = "id_usuario", nullable = false, unique = true)
     private Integer idUsuario;
 
-    @Column(name = "nombre", length = 50)
+    @Column(name = "nombre", length = 50, unique = true)
     private String nombre;
 
     @Column(name = "email", length = 50)

@@ -29,10 +29,10 @@ public class UsuarioController {
 
     // Login
     @PostMapping("/login")
-    public ResponseEntity<Map<String, Object>> login(@RequestParam String id_usuario, @RequestParam String contraseña) {
+    public ResponseEntity<Map<String, Object>> login(@RequestParam String nombre, @RequestParam String contraseña) {
         try {
 
-            Usuario usuario = usuarioServicio.login(id_usuario, contraseña);
+            Usuario usuario = usuarioServicio.login(nombre, contraseña);
 
 
             Map<String, Object> response = new HashMap<>();

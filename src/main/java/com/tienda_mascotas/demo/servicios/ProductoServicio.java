@@ -2,6 +2,7 @@ package com.tienda_mascotas.demo.servicios;
 
 import com.tienda_mascotas.demo.entidades.Producto;
 import com.tienda_mascotas.demo.repositorios.ProductoRepositorio;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,6 +34,14 @@ public class ProductoServicio {
         producto.setDescripcion(productoDetalles.getDescripcion());
         producto.setPrecio(productoDetalles.getPrecio());
         producto.setStock(productoDetalles.getStock());
+        return productoRepositorio.save(producto);
+    }
+    public Producto findById(String idProducto) {
+        return productoRepositorio.findById(idProducto)
+                .orElseThrow(() -> new EntityNotFoundException("Producto no encontrado con ID: " + idProducto));
+    }
+
+    public Producto save(Producto producto) {
         return productoRepositorio.save(producto);
     }
 }

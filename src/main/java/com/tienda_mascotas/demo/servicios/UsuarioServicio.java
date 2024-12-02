@@ -1,5 +1,6 @@
 package com.tienda_mascotas.demo.servicios;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,10 +24,13 @@ public class UsuarioServicio {
     }
 
     // Login
-    public Usuario login(String idUsuario, String contraseña) throws Exception {
-        // Lógica para autenticar al usuario
-        Usuario usuario = usuarioRepositorio.findById(Integer.valueOf(idUsuario)).orElseThrow(() -> new Exception("Usuario no encontrado"));
+    public Usuario login(String nombre, String contraseña) throws Exception {
 
+        // Cambia la búsqueda para utilizar el nombre en lugar del id
+        Usuario usuario = usuarioRepositorio.findByNombre(nombre)
+                .orElseThrow(() -> new Exception("Usuario no encontrado"));
+
+        // Verifica la contraseña
         if (!usuario.getContraseña().equals(contraseña)) {
             throw new Exception("Contraseña incorrecta");
         }
@@ -36,6 +40,14 @@ public class UsuarioServicio {
     // Obtener todos los usuarios
     public List<Usuario> consultarClientes() {
         return usuarioRepositorio.findAll();
+    }
+    public Usuario findById(String idUsuario) {
+        return usuarioRepositorio.findById(Integer.valueOf(idUsuario))
+                .orElseThrow(() -> new EntityNotFoundException("Usuario no encontrado con ID: " + idUsuario));
+    }
+
+    public Usuario save(Usuario usuario) {
+        return usuarioRepositorio.save(usuario);
     }
 }
 
